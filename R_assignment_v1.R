@@ -30,3 +30,23 @@ summary(as.factor(geno$Group))
 #22    15    17    10   290  1256    27   900    41    34    75 
 #ZMXCP ZMXIL ZMXNO ZMXNT ZPERR 
 #69     6     7     4     9 
+summary(as.factor(snp$Chromosome))
+#1=155        10=53        2=127        3=107        4=91        5=122        6=76 #7=97        8=62        9=60 multiple=6  unknown=27 
+
+maize_genotypes <- filter(geno, Group == 'ZMMIL' | Group == 'ZMMLR' | Group == 'ZMMMR')
+dim(maize_genotypes)
+#1573  986
+head(maize_genotypes)
+summary(as.factor(maize_genotypes$Group))
+
+teosinte_genotypes <- filter(geno, Group == 'ZMPBA' | Group == 'ZMPIL' | Group == 'ZMPJA')
+dim(teosinte_genotypes)
+# 975 986
+head(teosinte_genotypes)
+summary(as.factor(teosinte_genotypes$Group))
+#ZMPBA ZMPIL ZMPJA 
+#900    41    34
+
+
+#transpose maize and teosinte
+
