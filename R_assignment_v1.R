@@ -24,3 +24,9 @@ object.size(geno)
 # 23124352 bytes
 object.size(snp)
 # 359152 bytes
+
+summary(as.factor(geno$Group))
+#TRIPS ZDIPL ZLUXR ZMHUE ZMMIL ZMMLR ZMMMR ZMPBA ZMPIL ZMPJA ZMXCH 
+#22    15    17    10   290  1256    27   900    41    34    75 
+#ZMXCP ZMXIL ZMXNO ZMXNT ZPERR 
+#69     6     7     4     9 
