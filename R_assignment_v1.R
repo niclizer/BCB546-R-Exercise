@@ -33,11 +33,16 @@ summary(as.factor(geno$Group))
 summary(as.factor(snp$Chromosome))
 #1=155        10=53        2=127        3=107        4=91        5=122        6=76 #7=97        8=62        9=60 multiple=6  unknown=27 
 
+
+
+
 maize_genotypes <- filter(geno, Group == 'ZMMIL' | Group == 'ZMMLR' | Group == 'ZMMMR')
 dim(maize_genotypes)
 #1573  986
 head(maize_genotypes)
 summary(as.factor(maize_genotypes$Group))
+#ZMMIL ZMMLR ZMMMR 
+#290  1256    27
 
 teosinte_genotypes <- filter(geno, Group == 'ZMPBA' | Group == 'ZMPIL' | Group == 'ZMPJA')
 dim(teosinte_genotypes)
@@ -63,12 +68,14 @@ teosinte_genotypes.tr <- teosinte_genotypes.tr[3:nrow(teosinte_genotypes.tr),]
 
 
 snp_maizegeno <- merge(snp_position.selected, maize_genotypes.tr, by="SNP_ID")
-snp_teosintegeno <- merge(snp_position.selected, maize_genotypes.tr, by="SNP_ID")
+snp_teosintegeno <- merge(snp_position.selected, teosinte_genotypes.tr, by="SNP_ID")
 snp_maizegeno.select <- select(snp_maizegeno, SNP_ID, Chromosome, Position, everything())
 snp_teosintegeno.select <- select(snp_teosintegeno, SNP_ID, Chromosome, Position, everything())
-view(snp_teosintegeno.select)
+view(snp_maizegeno.select)
 dim(snp_maizegeno.select)
 #983 1576
+dim(snp_teosintegeno.select)
+#981 978
 summary(as.factor(snp_maizegeno.select$Chromosome))
 sum(snp_maizegeno.select$Chromosome == "") 
 #0
@@ -158,3 +165,56 @@ teosinte_chrom_dec9 <- subset(snp_teosintegeno.select, Chromosome==9)%>%arrange(
   mutate_at(4:978, ~replace(., is.na(.), "-"))
 teosinte_chrom_dec10 <- subset(snp_teosintegeno.select, Chromosome==10)%>%arrange(desc(Position))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
+
+
+
+view(snp_maizegeno.select)
+
+
+#idk not sure
+#snp_maizegeno_cutNA <- filter(snp_maizegeno.select, !is.na(snp_maizegeno.select$Position))
+#snp_maizegeno_cutunkown <- subset(snp_maizegeno.select, Position!="unknown")
+
+
+#maize_snp_bar <- ggplot(data = snp_maizegeno.select) + geom_bar(mapping=aes(x=Chromosome)) + 
+ # ggtitle("SNP distribution in Chromosome - Maize genotypes")
+#maize_snp_bar + theme(plot.title = element_text(color = "blue", size = 12, face = "bold", hjust = 0.5))
+#teosinte_snp_bar <- ggplot(data = snp_teosintegeno.select) + geom_point(mapping=aes(x=Chromosome, y=Position)) +
+ # ggtitle("SNP distribution in Chromosome - Teosinte genotypes")
+#teosinte_snp_bar + theme(plot.title = element_text(color = "blue", size = 12, face = "bold", hjust = 0.5))
+
+maize_snp_bar <- ggplot(data = snp_maizegeno.select) + geom_bar(mapping=aes(x=Chromosome)) + 
+  ggtitle("Miaze SNP distribution across Chromosomes")
+maize_snp_bar + theme(plot.title = element_text(color = "blue", size = 12, face = "bold", hjust = 0.5))
+
+view(geno)
+view(snp_teosintegeno.select)
+
+teosinte_snp_bar <- ggplot(data = snp_teosintegeno.select) + geom_bar(mapping=aes(x=Chromosome)) + 
+  ggtitle("Teosinte SNP distribution across Chromosomes")
+teosinte_snp_bar + theme(plot.title = element_text(color = "blue", size = 12, face = "bold", hjust = 0.5))
+
+maize_snp_point <- ggplot(data = snp_maizegeno.select) + geom_point(mapping=aes(x=Chromosome, y=Position)) + 
+  ggtitle("Miaze SNP distribution across Chromosomes")
+maize_snp_point + theme(plot.title = element_text(color = "blue", size = 12, face = "bold", hjust = 0.5))
+
+teosinte_snp_point <- ggplot(data = snp_teosintegeno.select) + geom_point(mapping=aes(x=Chromosome, y=Position)) + 
+  ggtitle("Teosinte SNP distribution across Chromosomes")
+teosinte_snp_point + theme(plot.title = element_text(color = "blue", size = 12, face = "bold", hjust = 0.5))
+
+summary(as.factor(snp_maizegeno.select$Chromosome))
+summary(as.factor(snp_teosintegeno.select$Chromosome))
+
+#sapply(as.numeric(snp_teosintegeno.select$Position), range)
+#sapply(snp_teosintegeno.select$Position, max)
+
+
+###########
+snp2 <- snp[c(1,3,4,2,5:15)]
+
+testplot <- ggplot(data = snp2[!is.na(as.numeric(snp$Chromosome))]) +
+  geom_bar(mapping = aes(as.numeric(Chromosome),fill=Chromosome)) + 
+  scale_x_discrete(limit=c(1:10)) + labs(x="chromosome number", y="position")
+print(testplot)
+ggplot(data = snp2[!is.na(as.numeric(snp$Chromosome)),]) +   geom_bar(mapping = aes(x = as.numeric(Chromosome), fill=Chromosome)) + scale_x_discrete(limit=c(1:10))+ labs(x = "Chromosome number", y="No. of polymorphism position")
+ggplot(data = snp2[!is.na(as.numeric(snp$Chromosome)),]) +   geom_bar(mapping = aes(x = as.numeric(Chromosome), fill=Chromosome))
