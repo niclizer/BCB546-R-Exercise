@@ -49,4 +49,20 @@ summary(as.factor(teosinte_genotypes$Group))
 
 
 #transpose maize and teosinte
+maize_genotypes <- column_to_rownames(maize_genotypes, var = "Sample_ID")
+maize_genotypes.tr <- t(maize_genotypes)%>%as.data.frame()%>%rownames_to_column(., var = "SNP_ID")
+maize_genotypes.tr <- maize_genotypes.tr[3:nrow(maize_genotypes.tr),]
 
+
+view(maize_genotypes.tr)
+view(snp)
+
+teosinte_genotypes <- column_to_rownames(teosinte_genotypes, var = "Sample_ID")
+teosinte_genotypes.tr <- t(teosinte_genotypes)%>%as.data.frame()%>%rownames_to_column(., var = "SNP_ID")
+teosinte_genotypes.tr <- teosinte_genotypes.tr[3:nrow(teosinte_genotypes.tr),]
+
+
+snp_maizegeno <- merge(snp_position.selected, maize_genotypes.tr, by="SNP_ID")
+snp_teosintegeno <- merge(snp_position.selected, maize_genotypes.tr, by="SNP_ID")
+snp_maizegeno.select <- select(snp_maizegeno, SNP_ID, Chromosome, Position, everything())
+snp_teosintegeno.select <- select(snp_teosintegeno, SNP_ID, Chromosome, Position, everything())
