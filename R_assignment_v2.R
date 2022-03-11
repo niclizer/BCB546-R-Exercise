@@ -9,7 +9,6 @@ geno<-read_tsv("https://raw.githubusercontent.com/niclizer/BCB_546_UNIX_Assignme
 snp <- read_tsv("https://raw.githubusercontent.com/niclizer/BCB_546_UNIX_Assignment/main/assignments/UNIX_Assignment/snp_position.txt")
 
 # Select SNP_ID, chromosome and Position from SNP_position data set
-library(dplyr)
 snp_position.selected <- select(snp, c("SNP_ID", "Chromosome", "Position"))
 str(snp_position.selected) # 983 rows and 3 columns
 glimpse(snp_position.selected) # similar function with str
