@@ -62,9 +62,6 @@ maize_genotypes.tr <- t(maize_genotypes)%>%as.data.frame()%>%rownames_to_column(
 maize_genotypes.tr <- maize_genotypes.tr[3:nrow(maize_genotypes.tr),]
 
 
-view(maize_genotypes.tr)
-view(snp)
-
 teosinte_genotypes <- column_to_rownames(teosinte_genotypes, var = "Sample_ID")
 teosinte_genotypes.tr <- t(teosinte_genotypes)%>%as.data.frame()%>%rownames_to_column(., var = "SNP_ID")
 teosinte_genotypes.tr <- teosinte_genotypes.tr[3:nrow(teosinte_genotypes.tr),]
@@ -74,7 +71,6 @@ snp_maizegeno <- merge(snp_position.selected, maize_genotypes.tr, by="SNP_ID")
 snp_teosintegeno <- merge(snp_position.selected, teosinte_genotypes.tr, by="SNP_ID")
 snp_maizegeno.select <- select(snp_maizegeno, SNP_ID, Chromosome, Position, everything())
 snp_teosintegeno.select <- select(snp_teosintegeno, SNP_ID, Chromosome, Position, everything())
-view(snp_maizegeno.select)
 dim(snp_maizegeno.select)
 #983 1576
 dim(snp_teosintegeno.select)
@@ -168,10 +164,6 @@ teosinte_chrom_dec9 <- subset(snp_teosintegeno.select, Chromosome==9)%>%arrange(
   mutate_at(4:978, ~replace(., is.na(.), "-"))
 teosinte_chrom_dec10 <- subset(snp_teosintegeno.select, Chromosome==10)%>%arrange(desc(Position))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-
-
-
-view(snp_maizegeno.select)
 
 
 #idk not sure
