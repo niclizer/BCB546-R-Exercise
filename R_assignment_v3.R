@@ -67,7 +67,7 @@ teosinte_genotypes <- column_to_rownames(teosinte_genotypes, var = "Sample_ID")
 teosinte_genotypes.tr <- t(teosinte_genotypes)%>%as.data.frame()%>%rownames_to_column(., var = "SNP_ID")
 teosinte_genotypes.tr <- teosinte_genotypes.tr[3:nrow(teosinte_genotypes.tr),]
 
-
+view(snp_maizegeno.select)
 snp_maizegeno <- merge(snp_position.selected, maize_genotypes.tr, by="SNP_ID")
 snp_teosintegeno <- merge(snp_position.selected, teosinte_genotypes.tr, by="SNP_ID")
 snp_maizegeno.select <- select(snp_maizegeno, SNP_ID, Chromosome, Position, everything())
@@ -117,39 +117,29 @@ data.frame(lapply(data, gsub, pattern = "[?]", replacement = "-"))
 view(maize_chom_dec1_1)
 
 maize_replaced<- data.frame(lapply(snp_maizegeno.select, gsub, pattern = "[?]", replacement = "-"))
-teosenti_replaced <- data.frame(lapply(snp_teosintegeno.select, gsub, pattern = "[?]", replacement = "-"))
+teosente_replaced <- data.frame(lapply(snp_teosintegeno.select, gsub, pattern = "[?]", replacement = "-"))
 
-maize_chrom_dec1 <- subset(snp_maizegeno.select, Chromosome==1)%>%arrange(desc(as.numeric(Position)))
-maize_chrom_dec2 <- subset(snp_maizegeno.select, Chromosome==2)%>%arrange(desc(as.numeric(Position)))
-maize_chrom_dec3 <- subset(snp_maizegeno.select, Chromosome==3)%>%arrange(desc(as.numeric(Position)))
-maize_chrom_dec4 <- subset(snp_maizegeno.select, Chromosome==4)%>%arrange(desc(as.numeric(Position)))
-maize_chrom_dec5 <- subset(snp_maizegeno.select, Chromosome==5)%>%arrange(desc(as.numeric(Position)))
-maize_chrom_dec6 <- subset(snp_maizegeno.select, Chromosome==6)%>%arrange(desc(as.numeric(Position)))
-maize_chrom_dec7 <- subset(snp_maizegeno.select, Chromosome==7)%>%arrange(desc(as.numeric(Position)))
-maize_chrom_dec8 <- subset(snp_maizegeno.select, Chromosome==8)%>%arrange(desc(as.numeric(Position)))
-maize_chrom_dec9 <- subset(snp_maizegeno.select, Chromosome==9)%>%arrange(desc(as.numeric(Position)))
-maize_chrom_dec10 <- subset(snp_maizegeno.select, Chromosome==10)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec1 <- subset(maize_replaced, Chromosome==1)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec2 <- subset(maize_replaced, Chromosome==2)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec3 <- subset(maize_replaced, Chromosome==3)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec4 <- subset(maize_replaced, Chromosome==4)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec5 <- subset(maize_replaced, Chromosome==5)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec6 <- subset(maize_replaced, Chromosome==6)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec7 <- subset(maize_replaced, Chromosome==7)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec8 <- subset(maize_replaced, Chromosome==8)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec9 <- subset(maize_replaced, Chromosome==9)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec10 <- subset(maize_replaced, Chromosome==10)%>%arrange(desc(as.numeric(Position)))
 
-teosinte_chrom_dec1 <- subset(snp_teosintegeno.select, Chromosome==1)%>%arrange(desc(as.numeric(Position)))%>%
-  mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec2 <- subset(snp_teosintegeno.select, Chromosome==2)%>%arrange(desc(as.numeric(Position)))%>%
-  mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec3 <- subset(snp_teosintegeno.select, Chromosome==3)%>%arrange(desc(as.numeric(Position)))%>%
-  mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec4 <- subset(snp_teosintegeno.select, Chromosome==4)%>%arrange(desc(as.numeric(Position)))%>%
-  mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec5 <- subset(snp_teosintegeno.select, Chromosome==5)%>%arrange(desc(as.numeric(Position)))%>%
-  mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec6 <- subset(snp_teosintegeno.select, Chromosome==6)%>%arrange(desc(as.numeric(Position)))%>%
-  mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec7 <- subset(snp_teosintegeno.select, Chromosome==7)%>%arrange(desc(as.numeric(Position)))%>%
-  mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec8 <- subset(snp_teosintegeno.select, Chromosome==8)%>%arrange(desc(as.numeric(Position)))%>%
-  mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec9 <- subset(snp_teosintegeno.select, Chromosome==9)%>%arrange(desc(as.numeric(Position)))%>%
-  mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec10 <- subset(snp_teosintegeno.select, Chromosome==10)%>%arrange(desc(as.numeric(Position)))%>%
-  mutate_at(4:978, ~replace(., is.na(.), "-"))
+teosinte_chrom_dec1 <- subset(teosente_replaced, Chromosome==1)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec2 <- subset(teosente_replaced, Chromosome==2)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec3 <- subset(teosente_replaced, Chromosome==3)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec4 <- subset(teosente_replaced, Chromosome==4)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec5 <- subset(teosente_replaced, Chromosome==5)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec6 <- subset(teosente_replaced, Chromosome==6)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec7 <- subset(teosente_replaced, Chromosome==7)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec8 <- subset(teosente_replaced, Chromosome==8)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec9 <- subset(teosente_replaced, Chromosome==9)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec10 <- subset(teosente_replaced, Chromosome==10)%>%arrange(desc(as.numeric(Position)))
 
 
 #idk not sure
@@ -205,9 +195,9 @@ snp_fang <- merge(fang_pivot_longer, snp, by="SNP_ID")
 num_snp_fang <- (snp_fang[!is.na(as.numeric(snp_fang$Chromosome)),])
 
 SNPs_per_chrom <- (num_snp_fang %>% select(SNP_ID, Chromosome, Position) %>% drop_na() %>% ggplot()+
-                     geom_bar(mapping = aes(as.numeric(Chromosome)), color="black", fill="blue") +
-                     labs(x = "Chromosome", y = "Total SNPs") + ggtitle("SNPs in Chromosome Position") +
-                     theme(plot.title = element_text(hjust = 0.5)))
+      geom_bar(mapping = aes(as.numeric(Chromosome)), color="black", fill="blue") +
+      labs(x = "Chromosome", y = "Total SNPs") + ggtitle("SNPs in Chromosome Position") +
+      theme(plot.title = element_text(hjust = 0.5)))
 print(SNPs_per_chrom)
 
 SNP_density <- (ggplot(num_snp_fang, aes(x= as.numeric(Position)))) + geom_density(aes(fill = Chromosome)) + facet_wrap(~ Chromosome) +
