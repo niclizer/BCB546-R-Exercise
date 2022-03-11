@@ -229,11 +229,8 @@ SNPs_per_chrom <- (num_snp_fang %>% select(SNP_ID, Chromosome, Position) %>% dro
                      theme(plot.title = element_text(hjust = 0.5)))
 print(SNPs_per_chrom)
 
-SNP_density <- (ggplot(num_snp_fang, aes(x= as.numeric(Position)))) +
-                  geom_density(aes(fill = Chromosome)) +
-                  facet_wrap(~ Chromosome) +
-                  labs(x = "Position", y = "Density") +
-                  ggtitle("SNP Density")
+SNP_density <- (ggplot(num_snp_fang, aes(x= as.numeric(Position)))) + geom_density(aes(fill = Chromosome)) + facet_wrap(~ Chromosome) +
+                  labs(x = "Position", y = "Density") + ggtitle("SNP Density")
 print(SNP_density)
 
 
@@ -247,17 +244,14 @@ print(hetero)
 
 
 Heterozygosity_of_All <- (ggplot(add_column, aes(x = Sample_ID, fill = Heterozygotes)) +
-                            geom_bar(position = "fill") +
-                            labs(x = "Sample_ID", y = "Proportion") +
+                            geom_bar(position = "fill") + labs(x = "Sample_ID", y = "Proportion") +
                             ggtitle("Heterozygosity in Maize and Teosinte") +
                             theme(plot.title = element_text(hjust = 0.5)))
 print(Heterozygosity_of_All)
 Heterozygosity_Across_Groups <- (ggplot(add_column, aes(x = Group, fill = Heterozygotes)) +
                                    geom_bar(position = "fill") +
-                                   labs(x = "Group", y = "Proportion") +
-                                   theme(axis.text.x = element_text(angle = 90)) +
-                                   ggtitle("Heterozygosity for all Groups") +
-                                   theme(plot.title = element_text(hjust = 0.5)))
+                                   labs(x = "Group", y = "Proportion") + theme(axis.text.x = element_text(angle = 90)) +
+                                   ggtitle("Heterozygosity for all Groups") + theme(plot.title = element_text(hjust = 0.5)))
 print(Heterozygosity_Across_Groups)
 
 added_column2 <- filter(add_column,Group == "ZMMIL" | Group == "ZMMLR" | Group == "ZMMMR")
