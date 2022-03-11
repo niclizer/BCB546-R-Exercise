@@ -216,5 +216,54 @@ testplot <- ggplot(data = snp2[!is.na(as.numeric(snp$Chromosome))]) +
   geom_bar(mapping = aes(as.numeric(Chromosome),fill=Chromosome)) + 
   scale_x_discrete(limit=c(1:10)) + labs(x="chromosome number", y="position")
 print(testplot)
-ggplot(data = snp2[!is.na(as.numeric(snp$Chromosome)),]) +   geom_bar(mapping = aes(x = as.numeric(Chromosome), fill=Chromosome)) + scale_x_discrete(limit=c(1:10))+ labs(x = "Chromosome number", y="No. of polymorphism position")
+ggplot(data = snp_position.selected[!is.na(as.numeric(snp$Chromosome)),]) +   geom_bar(mapping = aes(x = as.numeric(Chromosome), fill=Chromosome)) + scale_x_discrete(limit=c(1:10))+ labs(x = "Chromosome number", y="No. of polymorphism position")
 ggplot(data = snp2[!is.na(as.numeric(snp$Chromosome)),]) +   geom_bar(mapping = aes(x = as.numeric(Chromosome), fill=Chromosome))
+
+fang_pivot_longer <- geno %>% pivot_longer(!c(Sample_ID, JG_OTU, Group), names_to="SNP_ID", values_to= "NT")
+snp_fang <- merge(fang_pivot_longer, snp, by="SNP_ID")
+num_snp_fang <- (snp_fang[!is.na(as.numeric(snp_fang$Chromosome)),])
+
+SNPs_per_chrom <- (num_snp_fang %>% select(SNP_ID, Chromosome, Position) %>% drop_na() %>% ggplot()+
+                     geom_bar(mapping = aes(as.numeric(Chromosome)), color="black", fill="blue") +
+                     labs(x = "Chromosome", y = "Total SNPs") + ggtitle("SNPs in Chromosome Position") +
+                     theme(plot.title = element_text(hjust = 0.5)))
+print(SNPs_per_chrom)
+
+SNP_density <- (ggplot(num_snp_fang, aes(x= as.numeric(Position)))) +
+                  geom_density(aes(fill = Chromosome)) +
+                  facet_wrap(~ Chromosome) +
+                  labs(x = "Position", y = "Density") +
+                  ggtitle("SNP Density")
+print(SNP_density)
+
+
+add_column <- num_snp_fang
+add_column$Heterozygotes <- "Heterozygotes"
+add_column$Heterozygotes[add_column$NT == "?/?"] <- "Missing"
+add_column$Heterozygotes[add_column$NT %in% c("A/A", "T/T", "C/C", "G/G")] <- "Homozygous"
+
+hetero <- ggplot(add_column, aes(x = Sample_ID, fill = Heterozygotes))+ geom_bar(position = "fill")+ labs(x="Sample_ID", y="Proportion")+ggtitle("Heterozyosity in Miaze and Teo")+theme(plot.title = element_text(hjust = 0.5))
+print(hetero)
+
+
+Heterozygosity_of_All <- (ggplot(add_column, aes(x = Sample_ID, fill = Heterozygotes)) +
+                            geom_bar(position = "fill") +
+                            labs(x = "Sample_ID", y = "Proportion") +
+                            ggtitle("Heterozygosity in Maize and Teosinte") +
+                            theme(plot.title = element_text(hjust = 0.5)))
+print(Heterozygosity_of_All)
+Heterozygosity_Across_Groups <- (ggplot(add_column, aes(x = Group, fill = Heterozygotes)) +
+                                   geom_bar(position = "fill") +
+                                   labs(x = "Group", y = "Proportion") +
+                                   theme(axis.text.x = element_text(angle = 90)) +
+                                   ggtitle("Heterozygosity for all Groups") +
+                                   theme(plot.title = element_text(hjust = 0.5)))
+print(Heterozygosity_Across_Groups)
+
+added_column2 <- filter(add_column,Group == "ZMMIL" | Group == "ZMMLR" | Group == "ZMMMR")
+My_Plot_Heterozygosity_In_Maize <- (ggplot(added_column2, aes(x = Group, fill = Heterozygotes)) +
+                                      geom_bar(position = "fill") +
+                                      labs(x = "Maize Group", y = "Proportion") +
+                                      ggtitle("Heterozygosity in Just Maize") +
+                                      theme(plot.title = element_text(hjust = 0.5)))
+print(My_Plot_Heterozygosity_In_Maize)
