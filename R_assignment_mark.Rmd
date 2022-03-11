@@ -1,0 +1,80 @@
+---
+title: "R_assignment"
+auther: "Nic Lizer"
+date: 3/11/22
+output: html_document
+---
+```{r}
+getwd()
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+```
+
+###Download the 2 data sets
+```{r}
+geno<-read_tsv("https://raw.githubusercontent.com/niclizer/BCB_546_UNIX_Assignment/main/assignments/UNIX_Assignment/fang_et_al_genotypes.txt")
+snp <- read_tsv("https://raw.githubusercontent.com/niclizer/BCB_546_UNIX_Assignment/main/assignments/UNIX_Assignment/snp_position.txt")
+```
+
+# Select SNP_ID, chromosome and Position from SNP_position data set
+```{r}
+snp_position.selected <- select(snp, c("SNP_ID", "Chromosome", "Position"))
+str(snp_position.selected) # 983 rows and 3 columns
+glimpse(snp_position.selected) # similar function with str
+```
+
+#Next determine the number of rows and get infomation of the fang data set
+```{r}
+nrow(geno)
+#2782
+ncol(geno)
+#986
+NROW(na.omit(geno)) 
+# 2782
+NCOL(na.omit(geno)) 
+# 986
+
+object.size(geno)
+# 23124352 bytes
+object.size(snp)
+# 359152 bytes
+
+summary(as.factor(geno$Group))
+#TRIPS ZDIPL ZLUXR ZMHUE ZMMIL ZMMLR ZMMMR ZMPBA ZMPIL ZMPJA ZMXCH 
+#22    15    17    10   290  1256    27   900    41    34    75 
+#ZMXCP ZMXIL ZMXNO ZMXNT ZPERR 
+#69     6     7     4     9 
+summary(as.factor(snp$Chromosome))
+#1=155        10=53        2=127        3=107        4=91        5=122        6=76 #7=97        8=62        9=60 multiple=6  unknown=27 
+```
+### Then
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
