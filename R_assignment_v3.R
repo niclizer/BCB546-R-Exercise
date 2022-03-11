@@ -81,96 +81,78 @@ sum(snp_maizegeno.select$Chromosome == "")
 #0
 
 ##need to remove NA/unknown?
-view(maize_chrom_dec7)
+view(snp_maizegeno.select)
 typeof(snp_maizegeno.select$Position)
 is.character(snp_maizegeno.select$Position)
 is.numeric(snp_maizegeno.select$Position = as.numeric(as.character(snp_maizegeno.select$Position)))
 getwd()
 arrange(snp_maizegeno.select, as.numeric(snp_maizegeno.select$Position))
 
-maize_chrom_inc1 <- subset(snp_maizegeno.select, Chromosome==1)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))%>%write.csv(maize_chrom_inc1,"C:/Users/nel0208144/Documents/EEOB546_R_lesson")
-maize_chrom_inc2 <- subset(snp_maizegeno.select, Chromosome==2)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-maize_chrom_inc3 <- subset(snp_maizegeno.select, Chromosome==3)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-maize_chrom_inc4 <- subset(snp_maizegeno.select, Chromosome==4)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-maize_chrom_inc5 <- subset(snp_maizegeno.select, Chromosome==5)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-maize_chrom_inc6 <- subset(snp_maizegeno.select, Chromosome==6)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-maize_chrom_inc7 <- subset(snp_maizegeno.select, Chromosome==7)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-maize_chrom_inc8 <- subset(snp_maizegeno.select, Chromosome==8)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-maize_chrom_inc9 <- subset(snp_maizegeno.select, Chromosome==9)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-maize_chrom_inc10 <- subset(snp_maizegeno.select, Chromosome==10)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
+maize_chrom_inc1 <- subset(snp_maizegeno.select, Chromosome==1)%>%arrange(as.numeric(Position))
+view(maize_chrom_inc1)
+ # write.csv(maize_chrom_inc1,"C:/Users/nel0208144/Documents/EEOB546_R_lesson")
+maize_chrom_inc2 <- subset(snp_maizegeno.select, Chromosome==2)%>%arrange(as.numeric(Position))
+maize_chrom_inc3 <- subset(snp_maizegeno.select, Chromosome==3)%>%arrange(as.numeric(Position))
+maize_chrom_inc4 <- subset(snp_maizegeno.select, Chromosome==4)%>%arrange(as.numeric(Position))
+maize_chrom_inc5 <- subset(snp_maizegeno.select, Chromosome==5)%>%arrange(as.numeric(Position))
+maize_chrom_inc6 <- subset(snp_maizegeno.select, Chromosome==6)%>%arrange(as.numeric(Position))
+maize_chrom_inc7 <- subset(snp_maizegeno.select, Chromosome==7)%>%arrange(as.numeric(Position))
+maize_chrom_inc8 <- subset(snp_maizegeno.select, Chromosome==8)%>%arrange(as.numeric(Position))
+maize_chrom_inc9 <- subset(snp_maizegeno.select, Chromosome==9)%>%arrange(as.numeric(Position))
+maize_chrom_inc10 <- subset(snp_maizegeno.select, Chromosome==10)%>%arrange(as.numeric(Position))
 
-teosinte_chrom_inc1 <- subset(snp_teosintegeno.select, Chromosome==1)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-teosinte_chrom_inc2 <- subset(snp_teosintegeno.select, Chromosome==2)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-teosinte_chrom_inc3 <- subset(snp_teosintegeno.select, Chromosome==3)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-teosinte_chrom_inc4 <- subset(snp_teosintegeno.select, Chromosome==4)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-teosinte_chrom_inc5 <- subset(snp_teosintegeno.select, Chromosome==5)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-teosinte_chrom_inc6 <- subset(snp_teosintegeno.select, Chromosome==6)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-teosinte_chrom_inc7 <- subset(snp_teosintegeno.select, Chromosome==7)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-teosinte_chrom_inc8 <- subset(snp_teosintegeno.select, Chromosome==8)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-teosinte_chrom_inc9 <- subset(snp_teosintegeno.select, Chromosome==9)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
-teosinte_chrom_inc10 <- subset(snp_teosintegeno.select, Chromosome==10)%>%arrange(Position)%>%
-  mutate_at(4:978, ~replace(., is.na(.), "?"))
+teosinte_chrom_inc1 <- subset(snp_teosintegeno.select, Chromosome==1)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc2 <- subset(snp_teosintegeno.select, Chromosome==2)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc3 <- subset(snp_teosintegeno.select, Chromosome==3)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc4 <- subset(snp_teosintegeno.select, Chromosome==4)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc5 <- subset(snp_teosintegeno.select, Chromosome==5)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc6 <- subset(snp_teosintegeno.select, Chromosome==6)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc7 <- subset(snp_teosintegeno.select, Chromosome==7)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc8 <- subset(snp_teosintegeno.select, Chromosome==8)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc9 <- subset(snp_teosintegeno.select, Chromosome==9)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc10 <- subset(snp_teosintegeno.select, Chromosome==10)%>%arrange(as.numeric(Position))
 
-
-maize_chrom_dec1 <- subset(snp_maizegeno.select, Chromosome==1)%>%arrange(desc(Position))%>%
+data.frame(lapply(data, gsub, pattern = "[?]", replacment = "-"))
+maize_chrom_dec1 <- subset(snp_maizegeno.select, Chromosome==1)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-maize_chrom_dec2 <- subset(snp_maizegeno.select, Chromosome==2)%>%arrange(desc(Position))%>%
+maize_chrom_dec2 <- subset(snp_maizegeno.select, Chromosome==2)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-maize_chrom_dec3 <- subset(snp_maizegeno.select, Chromosome==3)%>%arrange(desc(Position))%>%
+maize_chrom_dec3 <- subset(snp_maizegeno.select, Chromosome==3)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-maize_chrom_dec4 <- subset(snp_maizegeno.select, Chromosome==4)%>%arrange(desc(Position))%>%
+maize_chrom_dec4 <- subset(snp_maizegeno.select, Chromosome==4)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-maize_chrom_dec5 <- subset(snp_maizegeno.select, Chromosome==5)%>%arrange(desc(Position))%>%
+maize_chrom_dec5 <- subset(snp_maizegeno.select, Chromosome==5)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-maize_chrom_dec6 <- subset(snp_maizegeno.select, Chromosome==6)%>%arrange(desc(Position))%>%
+maize_chrom_dec6 <- subset(snp_maizegeno.select, Chromosome==6)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-maize_chrom_dec7 <- subset(snp_maizegeno.select, Chromosome==7)%>%arrange(desc(Position))%>%
+maize_chrom_dec7 <- subset(snp_maizegeno.select, Chromosome==7)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-maize_chrom_dec8 <- subset(snp_maizegeno.select, Chromosome==8)%>%arrange(desc(Position))%>%
+maize_chrom_dec8 <- subset(snp_maizegeno.select, Chromosome==8)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-maize_chrom_dec9 <- subset(snp_maizegeno.select, Chromosome==9)%>%arrange(desc(Position))%>%
+maize_chrom_dec9 <- subset(snp_maizegeno.select, Chromosome==9)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-maize_chrom_dec10 <- subset(snp_maizegeno.select, Chromosome==10)%>%arrange(desc(Position))%>%
+maize_chrom_dec10 <- subset(snp_maizegeno.select, Chromosome==10)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
 
-teosinte_chrom_dec1 <- subset(snp_teosintegeno.select, Chromosome==1)%>%arrange(desc(Position))%>%
+teosinte_chrom_dec1 <- subset(snp_teosintegeno.select, Chromosome==1)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec2 <- subset(snp_teosintegeno.select, Chromosome==2)%>%arrange(desc(Position))%>%
+teosinte_chrom_dec2 <- subset(snp_teosintegeno.select, Chromosome==2)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec3 <- subset(snp_teosintegeno.select, Chromosome==3)%>%arrange(desc(Position))%>%
+teosinte_chrom_dec3 <- subset(snp_teosintegeno.select, Chromosome==3)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec4 <- subset(snp_teosintegeno.select, Chromosome==4)%>%arrange(desc(Position))%>%
+teosinte_chrom_dec4 <- subset(snp_teosintegeno.select, Chromosome==4)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec5 <- subset(snp_teosintegeno.select, Chromosome==5)%>%arrange(desc(Position))%>%
+teosinte_chrom_dec5 <- subset(snp_teosintegeno.select, Chromosome==5)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec6 <- subset(snp_teosintegeno.select, Chromosome==6)%>%arrange(desc(Position))%>%
+teosinte_chrom_dec6 <- subset(snp_teosintegeno.select, Chromosome==6)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec7 <- subset(snp_teosintegeno.select, Chromosome==7)%>%arrange(desc(Position))%>%
+teosinte_chrom_dec7 <- subset(snp_teosintegeno.select, Chromosome==7)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec8 <- subset(snp_teosintegeno.select, Chromosome==8)%>%arrange(desc(Position))%>%
+teosinte_chrom_dec8 <- subset(snp_teosintegeno.select, Chromosome==8)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec9 <- subset(snp_teosintegeno.select, Chromosome==9)%>%arrange(desc(Position))%>%
+teosinte_chrom_dec9 <- subset(snp_teosintegeno.select, Chromosome==9)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
-teosinte_chrom_dec10 <- subset(snp_teosintegeno.select, Chromosome==10)%>%arrange(desc(Position))%>%
+teosinte_chrom_dec10 <- subset(snp_teosintegeno.select, Chromosome==10)%>%arrange(desc(as.numeric(Position)))%>%
   mutate_at(4:978, ~replace(., is.na(.), "-"))
 
 
