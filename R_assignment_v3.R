@@ -72,24 +72,10 @@ snp_maizegeno <- merge(snp_position.selected, maize_genotypes.tr, by="SNP_ID")
 snp_teosintegeno <- merge(snp_position.selected, teosinte_genotypes.tr, by="SNP_ID")
 snp_maizegeno.select <- select(snp_maizegeno, SNP_ID, Chromosome, Position, everything())
 snp_teosintegeno.select <- select(snp_teosintegeno, SNP_ID, Chromosome, Position, everything())
-dim(snp_maizegeno.select)
-#983 1576
-dim(snp_teosintegeno.select)
-#981 978
-summary(as.factor(snp_maizegeno.select$Chromosome))
-sum(snp_maizegeno.select$Chromosome == "") 
-#0
 
-##need to remove NA/unknown?
-view(snp_maizegeno.select)
-typeof(snp_maizegeno.select$Position)
-is.character(snp_maizegeno.select$Position)
-is.numeric(snp_maizegeno.select$Position = as.numeric(as.character(snp_maizegeno.select$Position)))
-getwd()
-arrange(snp_maizegeno.select, as.numeric(snp_maizegeno.select$Position))
+
 
 maize_chrom_inc1 <- subset(snp_maizegeno.select, Chromosome==1)%>%arrange(as.numeric(Position))
-view(maize_chrom_inc1)
  # write.csv(maize_chrom_inc1,"C:/Users/nel0208144/Documents/EEOB546_R_lesson")
 maize_chrom_inc2 <- subset(snp_maizegeno.select, Chromosome==2)%>%arrange(as.numeric(Position))
 maize_chrom_inc3 <- subset(snp_maizegeno.select, Chromosome==3)%>%arrange(as.numeric(Position))
@@ -141,12 +127,6 @@ teosinte_chrom_dec8 <- subset(teosente_replaced, Chromosome==8)%>%arrange(desc(a
 teosinte_chrom_dec9 <- subset(teosente_replaced, Chromosome==9)%>%arrange(desc(as.numeric(Position)))
 teosinte_chrom_dec10 <- subset(teosente_replaced, Chromosome==10)%>%arrange(desc(as.numeric(Position)))
 
-
-#idk not sure
-#snp_maizegeno_cutNA <- filter(snp_maizegeno.select, !is.na(snp_maizegeno.select$Position))
-#snp_maizegeno_cutunkown <- subset(snp_maizegeno.select, Position!="unknown")
-
-
 #maize_snp_bar <- ggplot(data = snp_maizegeno.select) + geom_bar(mapping=aes(x=Chromosome)) + 
  # ggtitle("SNP distribution in Chromosome - Maize genotypes")
 #maize_snp_bar + theme(plot.title = element_text(color = "blue", size = 12, face = "bold", hjust = 0.5))
@@ -182,8 +162,10 @@ summary(as.factor(snp_teosintegeno.select$Chromosome))
 
 ###########
 snp2 <- snp[c(1,3,4,2,5:15)]
-
-testplot <- ggplot(data = snp2[!is.na(as.numeric(snp$Chromosome))]) +
+snp_position.selected
+snp_maizegeno
+snp_teosintegeno
+testplot <- ggplot(data = snp_position.selected[(as.numeric(snp$Chromosome))]) +
   geom_bar(mapping = aes(as.numeric(Chromosome),fill=Chromosome)) + 
   scale_x_discrete(limit=c(1:10)) + labs(x="chromosome number", y="position")
 print(testplot)
@@ -203,7 +185,6 @@ print(SNPs_per_chrom)
 SNP_density <- (ggplot(num_snp_fang, aes(x= as.numeric(Position)))) + geom_density(aes(fill = Chromosome)) + facet_wrap(~ Chromosome) +
                   labs(x = "Position", y = "Density") + ggtitle("SNP Density")
 print(SNP_density)
-
 
 add_column <- num_snp_fang
 add_column$Heterozygotes <- "Heterozygotes"
