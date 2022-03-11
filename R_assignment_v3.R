@@ -238,3 +238,6 @@ My_Plot_Heterozygosity_In_Maize <- (ggplot(added_column2, aes(x = Group, fill = 
                                       ggtitle("Heterozygosity in Just Maize") +
                                       theme(plot.title = element_text(hjust = 0.5)))
 print(My_Plot_Heterozygosity_In_Maize)
+
+rmarkdown::render("R_assignment_v3.R")
+knitr::spin(R_assignment_v3)
