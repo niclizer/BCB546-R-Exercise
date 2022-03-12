@@ -4,9 +4,6 @@ auther: "Nic Lizer"
 date: 3/11/22
 output: html_document
 ---
-```{r}
-getwd()
-```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -56,9 +53,138 @@ summary(as.factor(geno$Group))
 summary(as.factor(snp$Chromosome))
 #1=155        10=53        2=127        3=107        4=91        5=122        6=76 #7=97        8=62        9=60 multiple=6  unknown=27 
 ```
-### Then
+### Then filter by genotype group
+```{r}
+maize_genotypes <- filter(geno, Group == 'ZMMIL' | Group == 'ZMMLR' | Group == 'ZMMMR')
+dim(maize_genotypes)
+#1573  986
+summary(as.factor(maize_genotypes$Group))
+#ZMMIL ZMMLR ZMMMR 
+#290  1256    27
+teosinte_genotypes <- filter(geno, Group == 'ZMPBA' | Group == 'ZMPIL' | Group == 'ZMPJA')
+dim(teosinte_genotypes)
+# 975 986
+summary(as.factor(teosinte_genotypes$Group))
+#ZMPBA ZMPIL ZMPJA 
+#900    41    34
+```
 
+###Transpose the both groups
+```{r}
+maize_genotypes <- column_to_rownames(maize_genotypes, var = "Sample_ID")
+maize_genotypes.tr <- t(maize_genotypes)%>%as.data.frame()%>%rownames_to_column(., var = "SNP_ID") #transposition step
+maize_genotypes.tr <- maize_genotypes.tr[3:nrow(maize_genotypes.tr),] # remove the first 3 rows
 
+####same with teosinte group
+teosinte_genotypes <- column_to_rownames(teosinte_genotypes, var = "Sample_ID")
+teosinte_genotypes.tr <- t(teosinte_genotypes)%>%as.data.frame()%>%rownames_to_column(., var = "SNP_ID")
+teosinte_genotypes.tr <- teosinte_genotypes.tr[3:nrow(teosinte_genotypes.tr),]
+```
+### Then take out the individual chromosomes as well as arrange them in ascending order 
+```{r}
+maize_chrom_inc1 <- subset(snp_maizegeno.select, Chromosome==1)%>%arrange(as.numeric(Position))
+ # write.csv(maize_chrom_inc1,"C:/Users/nel0208144/Documents/EEOB546_R_lesson")
+maize_chrom_inc2 <- subset(snp_maizegeno.select, Chromosome==2)%>%arrange(as.numeric(Position))
+maize_chrom_inc3 <- subset(snp_maizegeno.select, Chromosome==3)%>%arrange(as.numeric(Position))
+maize_chrom_inc4 <- subset(snp_maizegeno.select, Chromosome==4)%>%arrange(as.numeric(Position))
+maize_chrom_inc5 <- subset(snp_maizegeno.select, Chromosome==5)%>%arrange(as.numeric(Position))
+maize_chrom_inc6 <- subset(snp_maizegeno.select, Chromosome==6)%>%arrange(as.numeric(Position))
+maize_chrom_inc7 <- subset(snp_maizegeno.select, Chromosome==7)%>%arrange(as.numeric(Position))
+maize_chrom_inc8 <- subset(snp_maizegeno.select, Chromosome==8)%>%arrange(as.numeric(Position))
+maize_chrom_inc9 <- subset(snp_maizegeno.select, Chromosome==9)%>%arrange(as.numeric(Position))
+maize_chrom_inc10 <- subset(snp_maizegeno.select, Chromosome==10)%>%arrange(as.numeric(Position))
+
+teosinte_chrom_inc1 <- subset(snp_teosintegeno.select, Chromosome==1)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc2 <- subset(snp_teosintegeno.select, Chromosome==2)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc3 <- subset(snp_teosintegeno.select, Chromosome==3)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc4 <- subset(snp_teosintegeno.select, Chromosome==4)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc5 <- subset(snp_teosintegeno.select, Chromosome==5)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc6 <- subset(snp_teosintegeno.select, Chromosome==6)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc7 <- subset(snp_teosintegeno.select, Chromosome==7)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc8 <- subset(snp_teosintegeno.select, Chromosome==8)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc9 <- subset(snp_teosintegeno.select, Chromosome==9)%>%arrange(as.numeric(Position))
+teosinte_chrom_inc10 <- subset(snp_teosintegeno.select, Chromosome==10)%>%arrange(as.numeric(Position))
+```
+###Finally, create the decending files with the replacment of "?" to "-"
+```{r}
+maize_replaced<- data.frame(lapply(snp_maizegeno.select, gsub, pattern = "[?]", replacement = "-"))
+teosente_replaced <- data.frame(lapply(snp_teosintegeno.select, gsub, pattern = "[?]", replacement = "-"))
+
+maize_chrom_dec1 <- subset(maize_replaced, Chromosome==1)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec2 <- subset(maize_replaced, Chromosome==2)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec3 <- subset(maize_replaced, Chromosome==3)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec4 <- subset(maize_replaced, Chromosome==4)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec5 <- subset(maize_replaced, Chromosome==5)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec6 <- subset(maize_replaced, Chromosome==6)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec7 <- subset(maize_replaced, Chromosome==7)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec8 <- subset(maize_replaced, Chromosome==8)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec9 <- subset(maize_replaced, Chromosome==9)%>%arrange(desc(as.numeric(Position)))
+maize_chrom_dec10 <- subset(maize_replaced, Chromosome==10)%>%arrange(desc(as.numeric(Position)))
+
+teosinte_chrom_dec1 <- subset(teosente_replaced, Chromosome==1)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec2 <- subset(teosente_replaced, Chromosome==2)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec3 <- subset(teosente_replaced, Chromosome==3)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec4 <- subset(teosente_replaced, Chromosome==4)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec5 <- subset(teosente_replaced, Chromosome==5)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec6 <- subset(teosente_replaced, Chromosome==6)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec7 <- subset(teosente_replaced, Chromosome==7)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec8 <- subset(teosente_replaced, Chromosome==8)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec9 <- subset(teosente_replaced, Chromosome==9)%>%arrange(desc(as.numeric(Position)))
+teosinte_chrom_dec10 <- subset(teosente_replaced, Chromosome==10)%>%arrange(desc(as.numeric(Position)))
+```
+###If you would like to actually have a file of these make then you can make csv files with 
+```{r}
+write.csv(maize_chrom_inc1,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_inc1")
+write.csv(maize_chrom_inc2,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_inc2")
+write.csv(maize_chrom_inc3,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_inc3")
+write.csv(maize_chrom_inc4,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_inc4")
+write.csv(maize_chrom_inc5,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_inc5")
+write.csv(maize_chrom_inc6,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_inc6")
+write.csv(maize_chrom_inc7,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_inc7")
+write.csv(maize_chrom_inc8,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_inc8")
+write.csv(maize_chrom_inc9,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_inc9")
+write.csv(maize_chrom_inc10,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_inc10")
+write.csv(teosinte_chrom_inc1,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_inc1")
+write.csv(teosinte_chrom_inc2,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_inc2")
+write.csv(teosinte_chrom_inc3,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_inc3")
+write.csv(teosinte_chrom_inc4,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_inc4")
+write.csv(teosinte_chrom_inc5,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_inc5")
+write.csv(teosinte_chrom_inc6,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_inc6")
+write.csv(teosinte_chrom_inc7,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_inc7")
+write.csv(teosinte_chrom_inc8,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_inc8")
+write.csv(teosinte_chrom_inc9,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_inc9")
+write.csv(teosinte_chrom_inc10,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_inc10")
+write.csv(maize_chrom_dec1,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_dec1")
+write.csv(maize_chrom_dec2,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_dec2")
+write.csv(maize_chrom_dec3,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_dec3")
+write.csv(maize_chrom_dec4,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_dec4")
+write.csv(maize_chrom_dec5,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_dec5")
+write.csv(maize_chrom_dec6,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_dec6")
+write.csv(maize_chrom_dec7,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_dec7")
+write.csv(maize_chrom_dec8,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_dec8")
+write.csv(maize_chrom_dec9,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_dec9")
+write.csv(maize_chrom_dec10,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//maize_chrom_dec10")
+write.csv(teosinte_chrom_dec1,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_dec1")
+write.csv(teosinte_chrom_dec2,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_dec2")
+write.csv(teosinte_chrom_dec3,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_dec3")
+write.csv(teosinte_chrom_dec4,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_dec4")
+write.csv(teosinte_chrom_dec5,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_dec5")
+write.csv(teosinte_chrom_dec6,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_dec6")
+write.csv(teosinte_chrom_dec7,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_dec7")
+write.csv(teosinte_chrom_dec8,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_dec8")
+write.csv(teosinte_chrom_dec9,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_dec9")
+write.csv(teosinte_chrom_dec10,"C:/Users/nel0208144/Documents/GitHub/EEOB546_R_lesson//teosinte_chrom_dec10")
+```
+
+##Part 2 visualization
+### To visualize the distrobution of SNPs across chromosomes
+```{r}
+maize_identify <- snp_maizegeno.select%>% select(SNP_ID, Chromosome, Position) %>% mutate(Species = "Maize")
+teosinte_identify <- snp_teosintegeno.select%>% select(SNP_ID, Chromosome, Position) %>% mutate(Species = "Teosinte")
+genobound <- bind_rows(maize_identify, teosinte_identify) #this combines the two groups
+SNPs_per_chrom3 <- ggplot(data = genobound) + geom_bar(mapping = aes(x= Chromosome, fill = Species))
+print(SNPs_per_chrom3)
+```
 ## R Markdown
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
