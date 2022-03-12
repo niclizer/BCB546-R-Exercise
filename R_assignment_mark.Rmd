@@ -185,3 +185,9 @@ genobound <- bind_rows(maize_identify, teosinte_identify) #this combines the two
 SNPs_per_chrom3 <- ggplot(data = genobound) + geom_bar(mapping = aes(x= Chromosome, fill = Species))
 print(SNPs_per_chrom3)
 ```
+### Next we want to visualize the proportion heterozygosity
+```{r}
+
+```
+
+###{r}
