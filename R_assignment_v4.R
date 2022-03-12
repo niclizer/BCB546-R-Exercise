@@ -241,7 +241,7 @@ teosinte_identify <- snp_teosintegeno.select%>% select(SNP_ID, Chromosome, Posit
 genobound <- bind_rows(maize_identify, teosinte_identify)
 view(genobound)
 
-fang_pivot_longer <- geno %>% pivot_longer(!c(Sample_ID, JG_OTU, Group), names_to="SNP_ID", values_to= "NT")
+fang_pivot_longer <- geno %>% pivot_longer(!c(Sample_ID, JG_OTU, Group), names_to="SNP_ID", values_to= "TOM")
 snp_fang <- merge(fang_pivot_longer, snp, by="SNP_ID")
 num_snp_fang <- (snp_fang[!is.na(as.numeric(snp_fang$Chromosome)),])
 
@@ -263,8 +263,8 @@ print(SNP_density)
 
 add_column <- num_snp_fang
 add_column$Heterozygotes <- "Heterozygotes"
-add_column$Heterozygotes[add_column$NT == "?/?"] <- "Missing"
-add_column$Heterozygotes[add_column$NT %in% c("A/A", "T/T", "C/C", "G/G")] <- "Homozygous"
+add_column$Heterozygotes[add_column$TOM == "?/?"] <- "Missing"
+add_column$Heterozygotes[add_column$TOM %in% c("A/A", "T/T", "C/C", "G/G")] <- "Homozygous"
 summary(add_column)
 
 hetero <- ggplot(add_column, aes(x = Sample_ID, fill = Heterozygotes))+ geom_bar(position = "fill")+ labs(x="Sample_ID", y="Proportion")+ggtitle("Heterozyosity in Miaze and Teo")
@@ -299,3 +299,30 @@ summarize.ID <- ddply(sortedmelt, c("Sample_ID"), summarise, total_ho = sum (Ho,
 summarize.melt <- melt(summarize.ID, measure.vars = c("total_ho", "total_het", "missing"))
 ggplot(summarize.melt,aes(x = Sample_ID, y = value, fill=variable)) + geom_bar(stat = "identity", position = "stack")
 attributes(summarize.melt)
+
+
+
+fang_pivot_longer <- geno %>% pivot_longer(!c(Sample_ID, JG_OTU, Group), names_to="SNP_ID", values_to= "TOM")
+snp_fang <- merge(fang_pivot_longer, snp, by="SNP_ID")
+num_snp_fang <- (snp_fang[!is.na(as.numeric(snp_fang$Chromosome)),])
+
+add_column <- snp_fang
+add_column$Heterozygotes <- "Heterozygotes"
+add_column$Heterozygotes[add_column$TOM == "?/?"] <- "Missing"
+add_column$Heterozygotes[add_column$TOM %in% c("A/A", "T/T", "C/C", "G/G")] <- "Homozygous"
+summary(add_column)
+
+
+
+
+
+fang_pivot_longer <- geno %>% pivot_longer(!c(Sample_ID, JG_OTU, Group), names_to="SNP_ID", values_to= "value")
+snp_fang <- merge(fang_pivot_longer, snp, by="SNP_ID")
+
+added_column <- snp_fang
+added_column$Heterozygotes <- "Hetero"
+added_column$Heterozygotes[add_column$value == "?/?"] <- "Missing"
+added_column$Heterozygotes[add_column$value %in% c("A/A", "T/T", "C/C", "G/G")] <- "Homo"
+
+Heterozygosity_Groups <- (ggplot(added_column, aes(x = Group, fill = Heterozygotes)) + geom_bar(position = "fill") + labs(x = "Group", y = "Proportion") + ggtitle("Heterozygosity in Groups")) 
+print(Heterozygosity_Groups)

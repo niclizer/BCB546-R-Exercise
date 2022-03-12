@@ -187,6 +187,17 @@ print(SNPs_per_chrom3)
 ```
 ### Next we want to visualize the proportion heterozygosity
 ```{r}
+fang_pivot_longer <- geno %>% pivot_longer(!c(Sample_ID, JG_OTU, Group), names_to="SNP_ID", values_to= "value")
+snp_fang <- merge(fang_pivot_longer, snp, by="SNP_ID")
+
+added_column <- snp_fang
+added_column$Heterozygotes <- "Heterozygotes"
+added_column$Heterozygotes[add_column$value == "?/?"] <- "Missing"
+added_column$Heterozygotes[add_column$value %in% c("A/A", "T/T", "C/C", "G/G")] <- "Homozygotes"
+
+Heterozygosity_Across_Groups <- (ggplot(add_column, aes(x = Group, fill = Heterozygotes)) + geom_bar(position = "fill") + labs(x = "Group", y = "Proportion") + theme(axis.text.x = element_text(angle = 90)) +
+ggtitle("Heterozygosity for all Groups") + theme(plot.title = element_text(hjust = 0.5)))
+print(Heterozygosity_Across_Groups)
 
 ```
 
