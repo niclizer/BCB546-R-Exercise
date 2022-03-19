@@ -1,0 +1,91 @@
+---
+title: "MercyFakude_review_Rmd"
+author: "Mercy Fakude"
+date: '2022-03-16'
+output: html_document
+---
+##I think a readme file could be useful in explaining your work. For example, your file naming system and the exact R code file you want me to use for the review.For this review I used the file 'R_assignment_v4.R'.
+
+##I couldnt THE download original files from class repository using 'read_tsv'. I used 'read.delim' and it worked just fine.Therefore, I suggest you incorporate this.
+```{r}
+geno<-read.delim("https://raw.githubusercontent.com/niclizer/BCB_546_UNIX_Assignment/main/assignments/UNIX_Assignment/fang_et_al_genotypes.txt")
+snp <- read.delim("https://raw.githubusercontent.com/niclizer/BCB_546_UNIX_Assignment/main/assignments/UNIX_Assignment/snp_position.txt")
+```
+## I liked that you described what each chunk of code is meant to do. It made it easy to track whether the code returns or matches your description. However, in some chunks you didnt include a description.
+
+## I think it would be good to also mention what each and every each command line is expected to return.
+
+## I liked the fact that after extracting the maize and teosinte genotypes you got a summary of the attributes of the extracted file.
+
+## Initially, I could not load the ggplot package and then I realized it was listed as library(gglots2) instead of library (ggplot2). Although spelling mistakes are common but I have learned that in R they can cost you a lot of time trying to figure out where you went wrong. I have this experience because I'm also new to R.
+
+## With the point above, I suggest going to Tools then Install packages, you will see a pop up box and search the package you need and click on install and the load your package.
+
+## Just a suggestion: After joining your snp and maize file (snp_maizegeno) in line 71,you can use a loop to subset and save the chromosomes as follows:
+
+```{r}
+for (chr in 1:10) 
+ {
+maize_chr <- subset(snp_maizegeno,Chromosome == chr) %>% arrange(Position) 
+#subset by chromosome and arrange in ascending order
+maize_chr[maize_chr == '?/?'] <- '?' 
+#replace symbol ('?/?') with symbol ('?')
+write.csv(maize_chr,file = paste("./path where you save your work/maize_chr",chr,"_Q.csv",sep = ""))
+#save files and name each file by chromosome number and symbol
+
+#save files and name each file by chromosome
+maize_chr_d <- subset(snp_maizegeno,Chromosome == chr) %>% arrange(desc(Position))
+#subset by chromosome and arrange in descending order
+maize_chr_d[maize_chr_d == '?/?'] <- '-' 
+#replace symbol ('?/?') with symbol('?')
+write.csv(maize_chr_d,file = paste("./path where you save your work/maize_chr",chr,"_H.csv",sep = ""))
+#save files and name each file by chromosome number and symbol  
+}
+```
+
+##I liked you data visualization. Your codes ran well without errors.I just have a few recommendations.
+
+## You can do the same for for teosinte, it makes the code concise.
+
+## You did a good job in plotting Heterozygosity in Maize and Teosinte.However, I suggest you head this as Zygosity in Maize and Teosinte because the plot shows both heterozygotes and homozygotes.
+
+## You did a good job in plotting Heterozygosity for all Groups.I suggest I you head this as Zygosity in all Grops because the plot shows both heterozygotes and homozygotes in all Groups.
+
+## You did a good job in showing the distribution of SNPs across chromosome s for both maize and teosinte. However, Chromome 10 kept on appearing between chromosome 1 and 2. I'm not sure why but you can try using this code which returns an ascending list of chromosome in the plots.
+
+```{r}
+snp %>% filter(Position < 10e1000) %>% 
+  ggplot(aes(as.double(Chromosome))) +
+  geom_bar(fill = 'green', color = 'blue') + 
+  geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
+  scale_x_continuous(breaks = 1:10) +
+  theme_replace() +
+  ggtitle("Maize SNP distribition across Chromosomes") +
+  ylab('Counts') +
+  xlab('Chromosome') 
+ggsave("./Path where you save your work/Maize SNP distribition across Chromosomes")
+```
+#This above code filters the original SNP file by position and specify less than infinity
+#Then pipes the filtering to create a bar graph of total counts of SNPs per chromosome
+#Then gives the X-axis and the y-axis a label
+#Then save the plot in your directory
+
+
+
+### Your plot for SNP density vs Position was a bit distorted.I suggest you use the following code:
+```{r}
+snp %>% filter(Position < 10e1000) %>% 
+  ggplot(aes(as.double(Position)/1000000)) +
+  geom_histogram(aes(y = ..density..), color = 'green', fill = "green", alpha = 0.4, bins = 20) + 
+  geom_density(aes(as.double(Position)/1000000), color = "purple") + 
+  facet_wrap(~ as.double(Chromosome), scales = "free") +
+  theme_replace() +
+  ggtitle("SNP Density") +
+  xlab('Position') +
+  ylab('Density')
+ggsave("./path in which you save your work/SNP density vs Position.png")
+```
+## This code filters the position for anything less than infinity and map them to position/1000000, which is in double class
+## Pipes this to create histogram SNP density in a chromosome and fill the histogram with green color
+## Use facet Wrap to plot each chromosome
+## Give the X-axis and the y-axis a label
