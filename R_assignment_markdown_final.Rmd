@@ -222,6 +222,4 @@ only_graph <- ggplot(Only_missing) + geom_bar(aes(x= Group, fill = Heterozygotes
 ggtitle("Amount_Missing_Only")
 print(only_graph)
 
-BBH <- filter(added_column, Heterozygotes == 'Heterozygotes')
-
 ```
